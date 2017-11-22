@@ -1,5 +1,12 @@
 'use strict';
 
+var HISTOGRAM_HEIGHT = 150;
+var BAR_WIDTH = 40;
+var INDENT = 90;
+var INITIAL_X = 160;
+var INITIAL_Y = 240;
+var LINE_HEIGHT = 15;
+
 window.renderStatistics = function (ctx, names, times) {
   ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
   ctx.beginPath();
@@ -39,33 +46,25 @@ window.renderStatistics = function (ctx, names, times) {
   ctx.fillText('Список результатов:', 215, 60);
 
   var max = 0;
-  var maxIndex = -1;
-  for(var i = 0 ; i < times.length; i++) {
+  for (var i = 0; i < times.length; i++) {
     var time = times[i];
     if (time > max) {
       max = time;
-      maxIndex = i;
     }
   }
 
-  var histogramHeight = 150;
-  var step = histogramHeight / (max * (-1)) ;
-  var barWidth = 40;
-  var indent = 90;
-  var initialX = 160;
-  var initialY = 240;
-  var lineHeight = 15;
+  var step = HISTOGRAM_HEIGHT / (max * (-1));
+  //???
+  for (var i = 0; i < times.length; i++) {
+    ctx.fillStyle = names[i] === 'Вы' ?
+    'rgba(255, 0, 0, 1)':
+    'rgba(0, 0, 255, ' + getRandom(0.1, 1) + ')';
 
-  for(var i = 0; i < times.length; i++) {
-    if (names[i] === 'Вы') {
-      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
-      ctx.fillRect(initialX + indent * i, initialY, barWidth, times[i] * step);
-    } else {
-      ctx.fillStyle = 'rgba(12, 32, 247, 0.5)';
-      ctx.fillRect(initialX + indent * i, initialY, barWidth, times[i] * step);
-    }
+    var coordinateX = INITIAL_X + INDENT * i;
+    var columnHeight = times[i] * step;
+    ctx.fillRect(coordinateX , INITIAL_Y, BAR_WIDTH, columnHeight); //???
     ctx.fillStyle = '#000';
-    ctx.fillText(names[i], initialX + indent * i, initialY + lineHeight);
-    ctx.fillText(Math.round (times[i]), initialX + indent * i, initialY + (times[i] * step) - 5);
+    ctx.fillText(names[i], coordinateX , INITIAL_Y + LINE_HEIGHT);
+    ctx.fillText(Math.round(times[i]), coordinateX , INITIAL_Y + columnHeight - 5);
   }
 };
