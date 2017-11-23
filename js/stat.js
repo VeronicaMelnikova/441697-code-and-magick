@@ -15,6 +15,7 @@ var getMaxElement = function (array) {
       max = item;
     }
   }
+  return max;
 };
 
 window.renderStatistics = function (ctx, names, times) {
@@ -54,14 +55,6 @@ window.renderStatistics = function (ctx, names, times) {
   ctx.font = '16px PT Mono';
   ctx.fillText('Ура вы победили!', 230, 40);
   ctx.fillText('Список результатов:', 215, 60);
-
-  // var max = 0;
-  // for (var i = 0; i < times.length; i++) {
-  //   var time = times[i];
-  //   if (time > max) {
-  //     max = time;
-  //   }
-  // }
 
   var step = HISTOGRAM_HEIGHT / (getMaxElement(times) * (-1));
   for (var i = 0; i < times.length; i++) {
